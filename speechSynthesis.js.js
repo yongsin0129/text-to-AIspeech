@@ -2,14 +2,19 @@
   
   "use strict"
   require('dotenv').config()
+  const voiceList = require('./voiceNameList.js').voiceListCN
 
-  // step 1 可選擇不同的語音
-  const voice = require('./VoiceNameList.js').voiceListCN
-  const choosenVoice = voice['zh-CN-XiaomengNeural']
+  // step 0 Make sure the environmental variables are correct
 
-  // step 2 修改 input.js 裡面的內容
-  const { input } = require('./input')
+  // step 1 Choose a different voice
+  const chosenVoice = voiceList['zh-CN-XiaomengNeural']
 
+  // step 2 Modify the content of input.js
+  const { input } = require('./input.js')
+
+  // step 3 Execute this program
+
+  // The following code does not need to be modified, just do the above three steps to get the audio file
   var sdk = require("microsoft-cognitiveservices-speech-sdk")
   var readline = require("readline")
 
@@ -19,7 +24,7 @@
   const audioConfig = sdk.AudioConfig.fromAudioFileOutput(audioFile)
 
   // The language of the voice that speaks.
-  speechConfig.speechSynthesisVoiceName = choosenVoice
+  speechConfig.speechSynthesisVoiceName = chosenVoice
 
   // Create the speech synthesizer.
   var synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig)
