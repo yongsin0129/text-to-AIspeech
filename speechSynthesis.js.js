@@ -1,57 +1,59 @@
-(function () {
-  
-  "use strict"
-  require('dotenv').config()
-  const voiceList = require('./voiceNameList.js').voiceListCN
+"use strict"
+require('dotenv').config()
 
-  // step 0 Make sure the environmental variables are correct
+// CN for chinese , ENg for English
+const voiceList = require('./voiceNameList.js').voiceListCN
 
-  // step 1 Choose a different voice
-  const chosenVoice = voiceList['zh-CN-XiaomengNeural']
+// step 0 Make sure the environmental variables are correct
 
-  // step 2 Modify the content of input.js
-  const { input } = require('./input.js')
+// step 1 Choose a different voice
+const chosenVoice = voiceList['zh-CN-XiaomengNeural']
 
-  // step 3 Execute this program
+// step 2 Modify the content of input.js
+const { input } = require('./input.js')
 
-  // The following code does not need to be modified, just do the above three steps to get the audio file
-  var sdk = require("microsoft-cognitiveservices-speech-sdk")
-  var readline = require("readline")
+// step 3 Execute this program
 
-  var audioFile = "YourAudioFile.mp3"
-  // This example requires environment variables named "SPEECH_KEY" and "SPEECH_REGION"
-  const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION)
-  const audioConfig = sdk.AudioConfig.fromAudioFileOutput(audioFile)
+// The following code does not need to be modified, just do the above three steps to get the audio file
+var sdk = require("microsoft-cognitiveservices-speech-sdk")
+var readline = require("readline")
 
-  // The language of the voice that speaks.
-  speechConfig.speechSynthesisVoiceName = chosenVoice
+var audioFile = "YourAudioFile.mp3"
+// This example requires environment variables named "SPEECH_KEY" and "SPEECH_REGION"
+const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION)
+const audioConfig = sdk.AudioConfig.fromAudioFileOutput(audioFile)
 
-  // Create the speech synthesizer.
-  var synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig)
+// The language of the voice that speaks.
+speechConfig.speechSynthesisVoiceName = chosenVoice
 
-  var rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
+// Create the speech synthesizer.
+var synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig)
+
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
 
 
-  // Start the synthesizer and wait for a result.
-  synthesizer.speakTextAsync(input,
-    function (result) {
-      if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
-        console.log("synthesis finished.")
-      } else {
-        console.error("Speech synthesis canceled, " + result.errorDetails +
-          "\nDid you set the speech resource key and region values?")
-      }
-      synthesizer.close()
-      synthesizer = null
-    },
-    function (err) {
-      console.trace("err - " + err)
-      synthesizer.close()
-      synthesizer = null
+// Start the synthesizer and wait for a result.
+synthesizer.speakTextAsync(input,
+  function (result) {
+    if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
+      console.log("synthesis finished.")
+    } else {
+      console.error("Speech synthesis canceled, " + result.errorDetails +
+        "\nDid you set the speech resource key and region values?")
+    }
+    synthesizer.close(() => {
+      console.log('Speech synthesizer closed.')
+      process.exit()
     })
-  console.log("Now synthesizing to: " + audioFile)
+    synthesizer = null
+  },
+  function (err) {
+    console.trace("err - " + err)
+    synthesizer.close()
+    synthesizer = null
+  })
+console.log("Now synthesizing to: " + audioFile)
 
-}())

@@ -2,9 +2,9 @@
   "name": "text-to-speech",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "speechSynthesis.js.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node speechSynthesis.js"
   },
   "author": "",
   "license": "ISC",
