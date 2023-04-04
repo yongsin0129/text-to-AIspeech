@@ -23,20 +23,18 @@ SPEECH_REGION=<your_speech_region>
 
 step3 :
 
-修改 input.ts 檔案，填入要合成的文字內容。
+跟著 input.js 檔案中的三個步驟做語音及內容的設定 。
 
 step4 :
-選擇要使用的語音，修改 VoiceNameList.ts 中的 voiceListCN 變數，選擇其中一個語音名稱，並將它指派給 choosenVoice 變數。
 
-step5 :
 在終端機中執行 npm start，開始合成語音並輸出為音訊檔案。
 
 ## 程式架構 :
 speechSynthesis.js: 程式進入點，設定語音合成的相關參數並啟動合成。
 
-input.ts: 存放要合成的文字內容。
+input.js: 存放要合成的文字內容。
 
-VoiceNameList.ts: 存放可用的語音清單。
+VoiceNameList.js: 存放可用的語音清單。
 
 .env.example: 範例的環境變數設定檔案。
 

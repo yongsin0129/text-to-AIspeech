@@ -1,24 +1,16 @@
 "use strict"
+// The following code does not need to be modified, just do the three steps in input.js to get the audio file
+
 require('dotenv').config()
 
-// CN for chinese , ENg for English
-const voiceList = require('./voiceNameList.js').voiceListCN
-
-// step 0 Make sure the environmental variables are correct
-
-// step 1 Choose a different voice
-const chosenVoice = voiceList['zh-CN-XiaomengNeural']
-
-// step 2 Modify the content of input.js
-const { input } = require('./input.js')
-
-// step 3 Execute this program
-
-// The following code does not need to be modified, just do the above three steps to get the audio file
 var sdk = require("microsoft-cognitiveservices-speech-sdk")
 var readline = require("readline")
 
+const { input } = require('./input.js')
+const { chosenVoice } = require('./input.js')
+
 var audioFile = "YourAudioFile.mp3"
+
 // This example requires environment variables named "SPEECH_KEY" and "SPEECH_REGION"
 const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION)
 const audioConfig = sdk.AudioConfig.fromAudioFileOutput(audioFile)
